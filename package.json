@@ -1,0 +1,36 @@
+{
+    "name": "newjs",
+    "version": "1.0.0",
+    "main": "./src/index.js",
+    "scripts": {
+        "prettier" : "lint-staged",
+        "start": "nodemon ./src/index.js",
+        "watch": "sass src/resource/scss/app.scss src/public/css/style.css --watch",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "cuongvip",
+    "license": "ISC",
+    "description": "",
+    "lint-staged": {
+    "src/**/*.{js,json,scss}": "prettier --single-quote --trailing-comma all --write --tab-width 4"    
+    },
+    "husky": {
+        "hooks": {
+        "pre-commit": "npm test",
+        "pre-push": "npm test",
+        "...": "..."
+        }
+    },
+    "dependencies": {
+        "express": "^5.1.0",
+        "express-handlebars": "^8.0.3",
+        "morgan": "^1.10.1",
+        "sass": "^1.93.2"
+    },
+    "devDependencies": {
+        "husky": "^9.1.7",
+        "lint-staged": "^16.2.3",
+        "nodemon": "^3.1.10",
+        "prettier": "^3.6.2"
+    }
+}
