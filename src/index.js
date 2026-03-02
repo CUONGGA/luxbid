@@ -82,3 +82,8 @@ route(app);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+app.use((err, req, res, next) => {
+  console.error('🔥 ERROR:', err.stack);
+  res.status(500).send(`<pre>${err.stack}</pre>`);
+});
