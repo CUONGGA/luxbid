@@ -127,19 +127,45 @@
     }
 
     .btn-login-lux {
-        background: #d4af37;
-        color: #000;
-        border-radius: 6px;
-        padding: 6px 16px;
-        font-weight: 600;
-        font-size: 14px;
-        border: none;
-        transition: 0.2s ease;
+    position: relative;
+    background: linear-gradient(135deg, #d4af37, #f5d76e);
+    color: #000;
+    border-radius: 30px;
+    padding: 8px 22px;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(212,175,55,0.5);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(212,175,55,0.35);
+    overflow: hidden;
     }
 
     .btn-login-lux:hover {
-        opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(212,175,55,0.6);
+    color: #000;
     }
+    .btn-login-lux::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        rgba(255,255,255,0.1),
+        rgba(255,255,255,0.6),
+        rgba(255,255,255,0.1)
+    );
+    transform: skewX(-20deg);
+    transition: 0.6s;
+}
+
+  .btn-login-lux:hover::before {
+      left: 130%;
+  }
     </style>
 </head>
 
