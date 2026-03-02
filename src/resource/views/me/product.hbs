@@ -1,0 +1,322 @@
+<form name="container-form" action="/products/me/form-action/delete?_method=DELETE" method="POST">
+  <div class="lux-bg d-flex align-items-center justify-content-center min-vh-100">
+    <div class="container">
+      <div class="lux-card mx-auto">
+        <div class="lux-header text-center py-4">
+          <h2 class="lux-title">Sản phẩm chờ đấu giá</h2>
+          {{#if (eq user.role "admin")}}
+            <a href="/products/me/trash">
+              Sản phẩm đã xóa ({{deletedCount}})
+            </a>
+          {{/if}}
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle text-center lux-table">
+            <thead>
+              <tr>
+                <th colspan="2">#</th>
+                <th>Tên Sản Phẩm</th>
+                <th>Giá {{{sortable 'price' _sort}}}</th>
+                <th>Thời Gian Mở Bán {{{sortable 'createdAt' _sort}}}</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each products}}
+              <tr>
+                <td>
+                  {{#if (eq ../user.role "admin")}}
+                  <div class="form-check m-0">
+                    <input class="form-check-input" type="checkbox" name="IDProducts[]" value="{{this._id}}">
+                  </div>
+                  {{/if}}
+                </td>
+
+                <td>{{inc @index}}</td>
+
+                <td class="fw-semibold">{{this.name}}</td>
+
+                <td>
+                  <span class="badge bg-warning text-dark fs-6 px-3 py-2 shadow-sm">
+                    {{formatCurrency this.price}}
+                  </span>
+                </td>
+
+                <td>{{this.createdAt}}</td>
+
+                <td>
+
+                  {{!-- 👑 ADMIN --}}
+                  {{#if (eq ../user.role "admin")}}
+                    <a href="{{this._id}}/edit" class="btn btn-dark">Sửa</a>
+
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-id="{{this._id}}"
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModal">
+                      Xóa
+                    </button>
+
+                  {{!-- 👤 USER --}}
+                  {{else}}
+
+                    {{#if (includes ../bidProductIds this._id)}}
+                      <span class="text-success fw-bold">
+                        🏆 Bạn đã đấu giá
+                      </span>
+                    {{/if}}
+
+                  {{/if}}
+
+                </td>
+              </tr>
+
+              {{else}}
+              <tr>
+                <td colspan="6" class="fw-semibold text-center">
+                  Không có sản phẩm
+                </td>
+              </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+
+        {{!-- Bulk action chỉ hiện cho ADMIN --}}
+        {{#if (eq user.role "admin")}}
+        <div class="d-flex align-items-center gap-2 px-4 pb-4 justify-content-center mt-3">
+          <div class="form-check m-0">
+            <input class="form-check-input" type="checkbox" id="checkBoxAll">
+            <label class="form-check-label" for="checkBoxAll">
+              Chọn Tất Cả
+            </label>
+          </div>
+
+          <select class="form-select w-auto" name="action" required>
+            <option value="" selected disabled>Open this select menu</option>
+            <option value="delete">Xóa</option>
+          </select>
+
+          <button type="submit" class="btn btn-dark btn-check-submit" disabled>
+            Xác Nhận
+          </button>
+        </div>
+        {{/if}}
+
+      </div>
+    </div>
+  </div>
+</form>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content lux-modal">
+      <div class="modal-header border-0 justify-content-center">
+        <h5 class="modal-title lux-modal-title" id="exampleModalLabel">⚠️ Xác nhận hành động</h5>
+      </div>
+
+      <div class="modal-body text-center">
+        <p class="fs-5 mb-3 text-light">
+          Bạn có chắc chắn muốn <span class="text-warning fw-bold">xóa sản phẩm này</span> không?
+        </p>
+        <p class="text-muted small">
+          Hành động này không thể hoàn tác. Vui lòng xác nhận để tiếp tục.
+        </p>
+      </div>
+
+      <div class="modal-footer justify-content-center border-0">
+        <button type="button" class="btn btn-outline-light px-4" data-bs-dismiss="modal">
+          Hủy
+        </button>
+        <button id="btn-delete" type="button" class="btn btn-warning text-dark fw-semibold px-4">
+          Xóa ngay
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form name="delete-form" method="POST">
+  <input type="hidden" name="_method" value="DELETE">
+  <input type="hidden" name="IDProducts[]" value="">
+</form>
+
+<style>
+  /* Toàn trang */
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: "Poppins", sans-serif;
+    background: radial-gradient(circle at top right, #1a1a1a, #000);
+    color: #fff;
+    overflow-x: hidden;
+  }
+   .lux-modal {
+    background: radial-gradient(circle at top left, #111, #000);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
+    color: #fff;
+    animation: lux-fade-in 0.3s ease;
+  }
+
+  @keyframes lux-fade-in {
+    from {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .lux-modal-title {
+    color: #d4af37;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+  }
+
+  .lux-modal .modal-body {
+    padding: 25px 30px;
+    line-height: 1.6;
+  }
+
+  .lux-modal .btn {
+    border-radius: 25px;
+    transition: all 0.3s ease;
+  }
+
+  .lux-modal .btn-outline-light:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .lux-modal .btn-warning {
+    background: linear-gradient(135deg, #d4af37, #b8860b);
+    border: none;
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+  }
+
+  .lux-modal .btn-warning:hover {
+    background: linear-gradient(135deg, #ffdf00, #d4af37);
+    box-shadow: 0 0 18px rgba(255, 215, 0, 0.6);
+    transform: translateY(-2px);
+  }
+  /* Nền trang sang trọng */
+  .lux-bg {
+    background: linear-gradient(145deg, #0c0c0c 0%, #1f1f1f 50%, #2a2a2a 100%);
+    min-height: 100vh;
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  /* Thẻ card bao quanh bảng */
+  .lux-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    box-shadow: 0 8px 40px rgba(255, 215, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+  }
+
+  /* Tiêu đề */
+  .lux-header {
+    background: linear-gradient(90deg, #000, #222, #000);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .lux-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    color: #d4af37;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+  }
+
+  .lux-subtitle {
+    color: #aaa;
+    font-size: 1rem;
+    margin-top: 5px;
+    font-weight: 300;
+  }
+
+  /* Bảng */
+  .lux-table thead {
+    background: linear-gradient(90deg, #000, #111, #000);
+    color: #d4af37;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .lux-table tbody tr {
+    color: #f1f1f1;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+  }
+
+  .lux-table tbody tr:hover {
+    background-color: rgba(255, 215, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .badge {
+    background: linear-gradient(135deg, #d4af37, #b8860b);
+    color: #000;
+    border-radius: 25px;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+  }
+</style>
+
+<script>
+    var id;
+    var containerForm = document.forms['container-form'];
+    var deleteForm = document.forms['delete-form']; 
+    var exampleModal = document.getElementById('exampleModal')
+    var checkboxAll = document.querySelector('#checkBoxAll');
+    var ItemCheckbox = document.querySelectorAll('input[name="IDProducts[]"]');
+    var checkSubmitBtn = document.querySelector('.btn-check-submit');
+    exampleModal.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget
+    id = button.getAttribute('data-id');
+    // Button that triggered the modal
+    // Extract info from data-bs-* attributes
+  })
+
+  const btnDelete = document.getElementById('btn-delete');
+  btnDelete.onclick = function(event){
+    deleteForm.action = id + '/delete' + '?_method=DELETE';
+    console.log(deleteForm);
+    deleteForm.submit();
+  }
+
+  checkboxAll.onchange = function(){
+    var isCheckedAll = checkboxAll.checked;
+    ItemCheckbox.forEach(function(checkbox){
+      checkbox.checked = isCheckedAll
+      renderCheck();
+    })
+  }
+
+
+  ItemCheckbox.forEach(function(checkbox){
+    checkbox.onchange = function(){
+      var allChecked = ItemCheckbox.length === document.querySelectorAll('input[name="IDProducts[]"]:checked').length;
+      checkboxAll.checked = allChecked
+      renderCheck();
+    }
+  })
+
+  function renderCheck(){
+    var checkedCount = document.querySelectorAll('input[name="IDProducts[]"]:checked').length;
+    checkSubmitBtn.disabled = checkedCount === 0;
+  }
+
+</script>

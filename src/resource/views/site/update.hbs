@@ -1,0 +1,74 @@
+<div class="container py-5" style="min-height: 100vh;">
+  <div class="form-card mx-auto">
+    <h2 class="text-center mb-4">✏️ Update Product</h2>
+
+    <!-- action gửi đến /site/update/:id -->
+    <form action="/products/{{product._id}}/update?_method=PUT" method="POST">
+      <!-- Name -->
+      <div class="mb-3">
+        <label for="name" class="form-label fw-semibold">Product Name</label>
+        <input type="text" id="name" name="name" class="form-control" 
+               value="{{product.name}}" required>
+      </div>
+
+      <!-- Description -->
+      <div class="mb-3">
+        <label for="description" class="form-label fw-semibold">Description</label>
+        <textarea id="description" name="description" class="form-control" rows="3">{{product.description}}</textarea>
+      </div>
+
+      <!-- Price -->
+      <div class="mb-3">
+        <label for="price" class="form-label fw-semibold">Price ($)</label>
+        <input type="String" id="price" name="price" class="form-control" 
+               value="{{product.price}}" min="0" required>
+      </div>
+
+      <!-- Image -->
+      <div class="mb-3">
+        <label for="img" class="form-label fw-semibold">Image URL</label>
+        <input type="text" id="img" name="image" class="form-control" value="{{product.img}}">
+      </div>
+
+      <div class="text-center">
+        <button type="submit" class="btn btn-lux">Update Product</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #fdfcfb, #e2d1c3);
+  }
+
+  .form-card {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    padding: 40px;
+    width: 100%;
+    max-width: 600px;
+  }
+
+  h2 {
+    color: #b8860b;
+    font-weight: 600;
+  }
+
+  .btn-lux {
+    background: linear-gradient(135deg, #d4af37, #b8860b);
+    color: white;
+    border: none;
+    font-weight: 600;
+    border-radius: 40px;
+    padding: 10px 30px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-lux:hover {
+    background: linear-gradient(135deg, #f5d76e, #d4af37);
+    box-shadow: 0 6px 15px rgba(212,175,55,0.4);
+  }
+</style>

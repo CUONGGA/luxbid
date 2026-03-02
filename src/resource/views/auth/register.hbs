@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Register | LuxBid</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/css/register.css">
+</head>
+<body>
+<div class="lux-auth-wrapper">
+  <div class="lux-auth-card">
+
+    <div class="lux-brand">
+      <div class="lux-logo">CL</div>
+      <h2>LuxBid</h2>
+      <p>Create your premium account</p>
+    </div>
+
+    {{#if error}}
+      <div class="lux-error server-error">
+        {{error}}
+      </div>
+    {{/if}}
+
+    <form id="registerForm" method="POST" action="/auth/register" novalidate>
+
+      <div class="lux-input-group">
+        <input type="text" name="name" id="name" required>
+        <label>User Name</label>
+        <small class="error-text"></small>
+      </div>
+
+      <div class="lux-input-group">
+        <input type="email" name="email" id="email" required>
+        <label>Email Address</label>
+        <small class="error-text"></small>
+      </div>
+
+      <div class="lux-input-group password-group">
+        <input type="password" name="password" id="password" required>
+        <label>Password</label>
+        <span class="toggle-password">
+          <i class="fa-solid fa-eye"></i>
+        </span>
+        <small class="error-text"></small>
+      </div>
+
+      <div class="lux-input-group password-group">
+        <input type="password" name="confirmPassword" id="confirmPassword" required>
+        <label>Confirm Password</label>
+        <span class="toggle-password" data-target="confirmPassword">
+          <i class="fa-solid fa-eye"></i>
+        </span>
+        <small class="error-text"></small>
+      </div>
+
+      <button type="submit" class="lux-btn" id="submitBtn" disabled>
+        Create Account
+      </button>
+
+    </form>
+
+  </div>
+</div>
+</body>
+<script>
+const form = document.getElementById('registerForm');
+const nameInput = document.getElementById('name');
+const emailInput = document.getElementById('email');
+const passwordInput = document.getElementById('password');
+const confirmInput = document.getElementById('confirmPassword');
+const submitBtn = document.getElementById('submitBtn');
+const toggleButtons = document.querySelectorAll('.toggle-password');
+
+function showError(input, message) {
+  const group = input.parentElement;
+  group.classList.add('error');
+  group.querySelector('.error-text').innerText = message;
+}
+
+function clearError(input) {
+  const group = input.parentElement;
+  group.classList.remove('error');
+  group.querySelector('.error-text').innerText = "";
+}
+
+function validateName() {
+  if (nameInput.value.trim().length < 3) {
+    showError(nameInput, "Name must be at least 3 characters");
+    return false;
+  }
+  clearError(nameInput);
+  return true;
+}
+
+function validateEmail() {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!regex.test(emailInput.value.trim())) {
+    showError(emailInput, "Invalid email format");
+    return false;
+  }
+  clearError(emailInput);
+  return true;
+}
+
+function validatePassword() {
+  if (passwordInput.value.length < 6) {
+    showError(passwordInput, "Password must be at least 6 characters");
+    return false;
+  }
+  clearError(passwordInput);
+  return true;
+}
+
+function validateConfirm() {
+  if (confirmInput.value !== passwordInput.value) {
+    showError(confirmInput, "Passwords do not match");
+    return false;
+  }
+  clearError(confirmInput);
+  return true;
+}
+
+function checkForm() {
+  const valid =
+    validateName() &&
+    validateEmail() &&
+    validatePassword() &&
+    validateConfirm();
+
+  submitBtn.disabled = !valid;
+}
+
+nameInput.addEventListener('input', checkForm);
+emailInput.addEventListener('input', checkForm);
+passwordInput.addEventListener('input', checkForm);
+confirmInput.addEventListener('input', checkForm);
+
+toggleButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = document.getElementById(btn.dataset.target);
+    const type = target.type === 'password' ? 'text' : 'password';
+    target.type = type;
+    btn.innerHTML = type === 'password'
+      ? '<i class="fa-solid fa-eye"></i>'
+      : '<i class="fa-solid fa-eye-slash"></i>';
+  });
+});
+
+form.addEventListener('submit', function(e) {
+  if (!validateConfirm()) {
+    e.preventDefault();
+  }
+});
+</script>
+</html>

@@ -1,9 +1,199 @@
-.style {
-  color: blue;
+@charset "UTF-8";
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #f8f9fa;
 }
 
-h1 {
-  color: blue;
+header {
+  background: url("https://c.pxhere.com/photos/81/9f/crown_kings_bavaria_germany_europe_jewelry_power_sign-878833.jpg!d") center/cover no-repeat;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  position: relative;
+}
+
+header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+header .content {
+  position: relative;
+  z-index: 2;
+}
+
+header h1 {
+  font-size: 4rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.luxury-btn {
+  background: #d4af37;
+  border: none;
+  color: white;
+  padding: 12px 30px;
+  font-weight: 500;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+.luxury-btn:hover {
+  background: #c09b2a;
+  transform: scale(1.05);
+}
+
+.section-title {
+  text-align: center;
+  font-weight: 600;
+  margin-top: 80px;
+  margin-bottom: 40px;
+  font-size: 2rem;
+  color: #333;
+  text-transform: uppercase;
+  position: relative;
+}
+
+.section-title::after {
+  content: "";
+  width: 80px;
+  height: 3px;
+  background: #d4af37;
+  display: block;
+  margin: 10px auto 0;
+}
+
+.card {
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+}
+
+.card img {
+  height: 250px;
+  object-fit: cover;
+}
+
+.product-image {
+  width: 100%;
+  height: 500px;
+  object-fit: cover; /* ảnh lấp đầy khung, cắt phần thừa */
+  object-position: center; /* căn giữa ảnh */
+}
+
+footer {
+  color: #aaa;
+  padding: 30px 0;
+  text-align: center;
+  margin-top: 30px;
+}
+
+footer a {
+  color: #d4af37;
+  text-decoration: none;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+.card-body {
+  height: 170px;
+}
+
+/* User info button */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #111;
+  border: 1px solid #d4af37;
+  border-radius: 12px;
+  padding: 5px 12px;
+  color: #d4af37;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.user-info:hover {
+  background-color: #d4af37;
+  color: #000;
+}
+
+/* Avatar */
+.avatar-wrapper {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #d4af37;
+}
+
+.user-avatar {
+  width: 30px;
+  height: 25px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.user-avatar:hover {
+  transform: scale(1.1);
+}
+
+/* User name */
+.user-name {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+  background-color: #111;
+  border: 2px solid #d4af37;
+  border-radius: 10px;
+  min-width: 200px;
+  padding: 5px 0;
+}
+
+.dropdown-item {
+  color: #d4af37;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #d4af37;
+  color: #000;
+}
+
+/* Divider */
+.dropdown-divider {
+  border-top: 2px solid #f1c40f; /* sáng hơn */
+  margin: 5px 0;
+}
+
+/* Dropdown arrow */
+.dropdown-arrow {
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+}
+
+.user-menu .show .dropdown-arrow {
+  transform: rotate(180deg);
 }
 
 /*# sourceMappingURL=style.css.map */

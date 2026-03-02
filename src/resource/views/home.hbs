@@ -1,2 +1,251 @@
-<h1>Xin chào {{name}}!</h1>
-<p>Đây là nội dung từ file home.handlebarsss</p>
+<!-- Banner -->
+<header>
+  <div class="content text-center text-white">
+    <h1 class="display-3 fw-bold luxury-title">LuxBid</h1>
+    <p class="lead">Exclusive Swiss Watches • Diamond Jewelry • Luxury Cars</p>
+    <a href="#collection" class="luxury-btn mt-3">Khám phá ngay</a>
+  </div>
+</header>
+
+<!-- Giới thiệu -->
+<section class="container mt-5 text-center">
+  <h2 class="section-title">Về Chúng Tôi</h2>
+  <p class="w-75 mx-auto text-muted">
+    LuxBid là thương hiệu hàng đầu chuyên Đấu Giá <b>đồng hồ Thụy Sĩ</b>, 
+    <b>trang sức kim cương</b> và <b>xe nhập khẩu</b>. 
+    Chúng tôi cam kết mang đến cho bạn sản phẩm chính hãng, 
+    tinh xảo và đẳng cấp vượt thời gian.
+  </p>
+</section>
+
+<!-- Bộ sưu tập -->
+<section id="collection" class="container my-5">
+  <h2 class="section-title text-center mb-5">Bộ Sưu Tập Nổi Bật</h2>
+  <div class="row">
+
+    {{#each products}}
+    <div class="col-md-4 mb-4">
+      <div class="card luxury-card">
+
+        <div class="image-wrapper">
+          <a href="/site/{{this.slug}}">
+            <img src="{{this.image}}" class="card-img-top" alt="{{this.name}}">
+            <div class="overlay">
+              <span>Xem thêm</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="card-body text-center">
+          <h5 class="card-title fw-bold text-dark">{{this.name}}</h5>
+          <p class="card-text text-muted small">{{this.description}}</p>
+
+          <!-- 💰 PRICE -->
+          <div class="price-tag my-3">
+            {{this.price}}
+          </div>
+        </div>
+
+      </div>
+    </div>
+    {{/each}}
+
+  </div>
+</section>
+
+<!-- Liên hệ -->
+<section class="bg-dark text-white py-5">
+  <div class="container text-center">
+    <h2 class="fw-bold mb-3">Liên hệ với chúng tôi</h2>
+    <p>Mọi thắc mắc xin hãy liên hệ:</p>
+    <h4 class="text-warning mb-3">📞 0985 907 496</h4>
+    <a href="mailto:support@LuxBid.vn" class="btn btn-outline-light">
+      Gửi email ngay
+    </a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="text-center py-3 bg-light">
+  <p class="mb-0">© 2025 | Thiết kế bởi <a href="#">Cuong Dev</a></p>
+</footer>
+
+
+<style>
+  /* Title */
+.luxury-title {
+  letter-spacing: 3px;
+  color: #d4af37;
+}
+
+/* Card Style */
+.luxury-card {
+  border: none;
+  border-radius: 18px;
+  overflow: hidden;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  background: #fff;
+}
+
+.luxury-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+}
+
+/* Image Wrapper */
+.image-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+/* Overlay */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.overlay span {
+  color: #fff;
+  font-weight: 600;
+  padding: 10px 25px;
+  border-radius: 30px;
+  border: 2px solid #d4af37;
+  letter-spacing: 1px;
+  transition: 0.3s;
+}
+
+.overlay span:hover {
+  background: #d4af37;
+  color: #000;
+}
+
+/* Hover Effects */
+.image-wrapper:hover img {
+  transform: scale(1.1);
+}
+
+.image-wrapper:hover .overlay {
+  opacity: 1;
+}
+
+/* 💰 PRICE STYLE */
+.price-tag {
+  font-size: 22px;
+  font-weight: bold;
+  color: #d4af37;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.price-tag::after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 2px;
+  background: #d4af37;
+  margin: 8px auto 0;
+}
+
+/* Button */
+.luxury-btn {
+  background: linear-gradient(135deg, #d4af37, #b8962e);
+  color: #000;
+  padding: 8px 20px;
+  border-radius: 25px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.luxury-btn:hover {
+  background: #000;
+  color: #d4af37;
+  border: 1px solid #d4af37;
+}
+
+/* =========================
+   NAME STYLE (2 dòng ...)
+========================= */
+.card-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  min-height: 55px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;   /* tối đa 2 dòng */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =========================
+   DESCRIPTION STYLE (3 dòng ...)
+========================= */
+.card-text {
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 72px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;   /* tối đa 3 dòng */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #6c757d;
+}
+
+/* Card body spacing cho đẹp hơn */
+.card-body {
+  padding: 25px 20px;
+
+  /* ======================
+   NAME (2 dòng + ...)
+====================== */
+.card-title {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: #111;
+  margin-bottom: 10px;
+
+  min-height: 50px; /* giữ card đều */
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;  /* tối đa 2 dòng */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ======================
+   DESCRIPTION (3 dòng + ...)
+====================== */
+.card-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #6c757d;
+
+  min-height: 70px; /* giữ card đều */
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;  /* tối đa 3 dòng */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+}
+</style>

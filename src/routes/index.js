@@ -1,13 +1,19 @@
-const path = require('path');
-const express = require('express');
 const morgan = require('morgan');
 const newRouter = require('../routes/new');
 const newSite = require('../routes/site');
+const authRouter = require('./auth');
+const homeController = require('../app/controllers/HomeController');
+
 function route(app) {
-    app.use(morgan('combined'));
-    app.use(express.static(path.join(__dirname, './public')));
-    app.use('/new', newRouter);
-    app.use('/site', newSite);
+
+  app.use(morgan('combined'));
+
+  app.use('/auth', authRouter);
+  app.use('/new', newRouter);
+  app.use('/site', newSite);
+
+  // Trang chủ
+  app.get('/', homeController.index);
 }
 
 module.exports = route;
